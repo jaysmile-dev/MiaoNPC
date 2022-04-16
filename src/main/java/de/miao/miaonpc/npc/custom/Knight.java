@@ -264,14 +264,4 @@ public class Knight extends NPC {
     level.addFreshEntity(this);
 
   }
-
-  private void alt(Villager villager) {
-    if (villager.getLastDamageCause() != null)
-      if (villager.getLastDamageCause().getEntity() instanceof Monster)
-        villager.setTarget((Monster) villager.getLastDamageCause().getEntity());
-    for (var all : Bukkit.getOnlinePlayers())
-      if (all.getLocation().distanceSquared(villager.getLocation()) <= 20
-        && all.getGameMode() != GameMode.CREATIVE && all.getGameMode() != GameMode.SPECTATOR)
-        villager.setTarget(all);
-  }
 }
