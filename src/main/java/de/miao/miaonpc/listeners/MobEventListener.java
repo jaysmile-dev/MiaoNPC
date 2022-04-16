@@ -36,22 +36,6 @@ public class MobEventListener implements Listener {
   }
 
   @EventHandler
-  public void on(PlayerDeathEvent event) {
-
-    var killer = event.getPlayer().getLastDamageCause().getEntity();
-    System.out.println(killer.customName());
-    System.out.println(NPCUtil.isNPC(killer));
-    if (NPCUtil.isNPC(killer)) {
-      System.out.println("KILLER!");
-      event.deathMessage(null);
-      NPCUtil.getNPC(killer.getUniqueId(), killer.getEntityId(), plugin).addGoals();
-    }
-
-
-  }
-
-
-  @EventHandler
   public void on(EntityDamageByEntityEvent event) {
     if (!(event.getEntity() instanceof LivingEntity entity)) return;
       var damager = event.getDamager();
