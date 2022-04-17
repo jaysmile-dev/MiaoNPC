@@ -8,7 +8,6 @@ import de.miao.miaonpc.listeners.JoinLeaveEvent;
 import de.miao.miaonpc.listeners.MobEventListener;
 import de.miao.miaonpc.reader.PacketReader;
 import org.bukkit.Bukkit;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MiaoMain extends JavaPlugin {
@@ -19,8 +18,13 @@ public final class MiaoMain extends JavaPlugin {
     saveConfig();
     registerEvents();
     registerCommands();
-    Bukkit.getOnlinePlayers().forEach(player ->
-      new PacketReader(player).inject(this));
+    Bukkit.getOnlinePlayers().forEach(player -> {
+      if (player == null) return;
+      new PacketReader(player).inject(this);
+
+    });
+
+
   }
 
   @Override
