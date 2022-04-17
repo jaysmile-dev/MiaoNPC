@@ -114,13 +114,15 @@ public class NPCUtil {
     plugin.saveConfig();
     for (var world : Bukkit.getWorlds()) {
       if (world == null) return;
-      for (var entity : world.getEntities()) {
-        if (NPCUtil.isNPC(entity) && NPCUtil.getNPCType(entity) == type) {
+      for (var chunk : world.getLoadedChunks())
+        for (var entity : chunk.getEntities()) {
+          if (!NPCUtil.isNPC(entity)) return;
+          if (NPCUtil.getNPCType(entity) != type) return;
 
 
           var randomString = RandomStringUtils.random(15, true, true);
           var name = "§8" + type;
-          if(name.length() > 15)
+          if (name.length() > 15)
             name = randomString;
           var profile = new GameProfile(entity.getUniqueId(), name);
 
@@ -150,8 +152,8 @@ public class NPCUtil {
             spawnNPC(buf, buf2, buf3, plugin, entity.getUniqueId(), entity.getEntityId(), profile, online);
           getNPC(entity.getUniqueId(), entity.getEntityId(), plugin).addGoals();
           System.out.println(4);
+
         }
-      }
     }
   }
 
