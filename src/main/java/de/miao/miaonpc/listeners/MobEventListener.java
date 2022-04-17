@@ -38,25 +38,7 @@ public class MobEventListener implements Listener {
 
   }
 
-  @EventHandler
-  public void on(BlockPlaceEvent event) {
-    var block = event.getBlock();
-    if (block.getType() != Material.FIRE) return;
 
-    block.setMetadata("player_uuid", new FixedMetadataValue(plugin, event.getPlayer().getUniqueId()));
-  }
-
-  @EventHandler
-  public void on(EntityDamageByBlockEvent event) {
-    var entity = event.getEntity();
-    if (!NPCUtil.isNPC(entity)) return;
-
-    var block = event.getDamager();
-    if (!(block.getType() == Material.FIRE)) return;
-
-    var target = Bukkit.getEntity(UUID.fromString(block.getMetadata("player_uuid").get(0).asString()));
-    NPCUtil.getNPC(entity.getUniqueId(), entity.getEntityId(), plugin).onDamage(target);
-  }
 
   @EventHandler
   public void on(EntityDamageByEntityEvent event) {
