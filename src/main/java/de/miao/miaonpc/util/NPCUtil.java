@@ -206,8 +206,7 @@ public class NPCUtil {
       connection.send(new ClientboundSetEquipmentPacket(entityId, equipmentList));
       connection.send(new ClientboundSetEntityDataPacket(entityId, dataWatcher, true));
     }
-    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> npcEntities.add(uuid)
-    );
+    Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> npcEntities.add(uuid));
 
     NPCUtil.addToTeam("invisibleTag", profile);
     Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, () -> {
