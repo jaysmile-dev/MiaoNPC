@@ -11,7 +11,7 @@ public class MobUtil {
     var mobLocation = mob.getEyeLocation();
     mobLocation.setY(mobLocation.getY() - 1);
     for (var entity : mob.getChunk().getEntities())
-      if (entity.getType() == EntityType.ARROW && (mobLocation.distance(entity.getLocation()) <= radius || mobLocation.distance(entity.getLocation()) == 0
+      if (entity.getType() == EntityType.SPECTRAL_ARROW || entity.getType() == EntityType.ARROW && (mobLocation.distance(entity.getLocation()) <= radius || mobLocation.distance(entity.getLocation()) == 0
         || mobLocation.distance(((Entity) ((Arrow) entity).getShooter()).getLocation()) <= radius)) {
         if (!((Arrow) entity).isInBlock()) {
           entity.remove();
