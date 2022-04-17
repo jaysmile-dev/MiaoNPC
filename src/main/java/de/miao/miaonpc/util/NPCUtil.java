@@ -214,7 +214,7 @@ public class NPCUtil {
       for (var online : Bukkit.getOnlinePlayers())
         ((CraftPlayer) online).getHandle().connection.send(new ClientboundPlayerInfoPacket(buf3));
 
-    }, 2 * 20);
+    }, 3 * 20);
     Bukkit.getPluginManager().callEvent(new NPCLoadEvent(uuid, plugin, entityId));
 
 
