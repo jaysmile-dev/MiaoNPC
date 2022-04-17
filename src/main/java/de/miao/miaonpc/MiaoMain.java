@@ -13,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class MiaoMain extends JavaPlugin implements Listener {
   private static String prefix = "§9Miao §7-> ";
+
   @Override
   public void onEnable() {
     saveConfig();
@@ -24,7 +25,8 @@ public final class MiaoMain extends JavaPlugin implements Listener {
 
   @Override
   public void onDisable() {
-    Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
+    if (PacketReader.class != null)
+      Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
   }
 
   private void registerEvents() {

@@ -164,13 +164,13 @@ public class NPCUtil {
     if (!isNPC(npcEntity)) return;
     npcEntity.remove();
     var npc = NPCUtil.getNewNPC(NPCUtil.getNPCType(npcEntity), ((CraftEntity) npcEntity).getHandle().getLevel(), plugin);
+    npc.setUUID(npcEntity.getUniqueId());
     npc.setHealth((float) ((Mob) npcEntity).getHealth());
     npc.setItemInHand(InteractionHand.MAIN_HAND, ((CraftMob) npcEntity).getHandle().getItemInHand(InteractionHand.MAIN_HAND));
     npc.spawn(npcEntity.getLocation());
-
+    NPCUtil.writeNPCType(Bukkit.getEntity(npc.getUUID()), npc.getNPCType());
     Bukkit.getMobGoals().removeAllGoals((Mob) Bukkit.getEntity(npc.getUUID()));
     npc.onLoad();
-    NPCUtil.writeNPCType(Bukkit.getEntity(npc.getUUID()), npc.getNPCType());
   }
 
   public static void addToTeam(String teamName, GameProfile profile) {
