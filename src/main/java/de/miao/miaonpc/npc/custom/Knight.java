@@ -102,7 +102,6 @@ public class Knight extends NPC {
     if (damager instanceof LivingEntity) {
       var villager = (Villager) Bukkit.getEntity(uuid);
       if (villager == null) {
-        System.out.println("villager is null");
         return;
       }
       if (damager instanceof Player player)
@@ -226,11 +225,9 @@ public class Knight extends NPC {
           villager.lookAt(target);
           if (villager.getLocation().distanceSquared(target.getLocation()) < 20)
             villager.getPathfinder().moveTo(target);
-          if (villager.getLocation().distanceSquared(target.getLocation()) < 3) {
+          if (villager.getLocation().distanceSquared(target.getLocation()) < 3)
             villager.attack(target);
-            Bukkit.getPluginManager().callEvent(new EntityDamageByEntityEvent(villager, target, EntityDamageEvent.DamageCause.ENTITY_ATTACK, villager.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getBaseValue()));
-            System.out.println("hit");
-          }
+
           if (target.isDead() || target.getHealth() <= 0) {
             villager.setTarget(null);
             return;

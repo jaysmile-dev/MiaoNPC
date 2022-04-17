@@ -156,7 +156,6 @@ public class NPCUtil {
       for (var online : Bukkit.getOnlinePlayers())
         spawnNPC(buf, buf2, buf3, plugin, entity.getUniqueId(), entity.getEntityId(), profile, online);
       getNPC(entity.getUniqueId(), entity.getEntityId(), plugin).addGoals();
-      System.out.println(4);
     }
 
   }
