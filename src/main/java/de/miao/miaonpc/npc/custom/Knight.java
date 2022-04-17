@@ -113,7 +113,6 @@ public class Knight extends NPC {
     if (damager instanceof Projectile) {
       if (((Projectile) damager).getShooter() instanceof LivingEntity entity)
         villager.setTarget(entity);
-
     }
 
   }
