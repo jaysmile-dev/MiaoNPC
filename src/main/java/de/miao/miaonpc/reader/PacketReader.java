@@ -89,7 +89,7 @@ public class PacketReader {
           }
           var randomString = "§8" + RandomStringUtils.random(13, true, true);
           var name = "§8" + NPCUtil.getNPCType(entity).toString();
-          if(name.length() > 15)
+          if (name.length() > 15)
             name = randomString;
           var profile = new GameProfile(entity.getUniqueId(), name);
           var skin = NPCUtil.getNPCSkin(NPCUtil.getNPCType(Bukkit.getEntity(packet.getUUID())), plugin.getConfig());

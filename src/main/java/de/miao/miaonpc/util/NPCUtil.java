@@ -40,10 +40,14 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
 public class NPCUtil {
+
+  private static HashSet<UUID> npcEntities = new HashSet<>();
+
   public static void writeNPCType(Entity entity, NPCType type) {
     entity.getPersistentDataContainer()
       .set(NamespacedKey.fromString("npc"),
@@ -112,49 +116,49 @@ public class NPCUtil {
     plugin.getConfig().set("npc." + type.toString().toLowerCase() + ".signature", skin.getSignature());
 
     plugin.saveConfig();
-    for (var world : Bukkit.getWorlds()) {
-      if (world == null) return;
-      for (var chunk : world.getLoadedChunks())
-        for (var entity : chunk.getEntities()) {
-          if (!NPCUtil.isNPC(entity)) return;
-          if (NPCUtil.getNPCType(entity) != type) return;
 
 
-          var randomString = RandomStringUtils.random(15, true, true);
-          var name = "§8" + type;
-          if (name.length() > 15)
-            name = randomString;
-          var profile = new GameProfile(entity.getUniqueId(), name);
+    for (var uuid : npcEntities) {
+      var entity = Bukkit.getEntity(uuid);
+      if (entity == null) return;
+      if (!NPCUtil.isNPC(entity)) return;
+      if (NPCUtil.getNPCType(entity) != type) return;
 
-          profile.getProperties().removeAll("textures");
-          profile.getProperties().put("textures", new Property("textures",
-            skin.getValue(),
-            skin.getSignature()));
-          var buf = new FriendlyByteBuf(Unpooled.buffer());
-          var playerUpdate = new ClientboundPlayerInfoPacket.PlayerUpdate(profile, 0, GameType.DEFAULT_MODE, new TextComponent(name));
-          List<ClientboundPlayerInfoPacket.PlayerUpdate> list = new ArrayList<>();
-          list.add(playerUpdate);
-          buf.writeVarInt(entity.getEntityId());
-          buf.writeUUID(entity.getUniqueId());
-          buf.writeDouble(entity.getLocation().getX());
-          buf.writeDouble(entity.getLocation().getY());
-          buf.writeDouble(entity.getLocation().getZ());
-          buf.writeByte((int) ((CraftEntity) entity).getHandle().getYRot());
-          buf.writeByte((int) ((CraftEntity) entity).getHandle().getXRot());
-          var buf2 = new FriendlyByteBuf(Unpooled.buffer());
-          buf2.writeEnum(ClientboundPlayerInfoPacket.Action.ADD_PLAYER);
-          buf2.writeCollection(list, BufferUtil::writeOnAdd);
 
-          var buf3 = new FriendlyByteBuf(Unpooled.buffer());
-          buf3.writeEnum(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER);
-          buf3.writeCollection(list, BufferUtil::writeOnRemove);
-          for (var online : Bukkit.getOnlinePlayers())
-            spawnNPC(buf, buf2, buf3, plugin, entity.getUniqueId(), entity.getEntityId(), profile, online);
-          getNPC(entity.getUniqueId(), entity.getEntityId(), plugin).addGoals();
-          System.out.println(4);
+      var randomString = RandomStringUtils.random(15, true, true);
+      var name = "§8" + type;
+      if (name.length() > 15)
+        name = randomString;
+      var profile = new GameProfile(entity.getUniqueId(), name);
 
-        }
+      profile.getProperties().removeAll("textures");
+      profile.getProperties().put("textures", new Property("textures",
+        skin.getValue(),
+        skin.getSignature()));
+      var buf = new FriendlyByteBuf(Unpooled.buffer());
+      var playerUpdate = new ClientboundPlayerInfoPacket.PlayerUpdate(profile, 0, GameType.DEFAULT_MODE, new TextComponent(name));
+      List<ClientboundPlayerInfoPacket.PlayerUpdate> list = new ArrayList<>();
+      list.add(playerUpdate);
+      buf.writeVarInt(entity.getEntityId());
+      buf.writeUUID(entity.getUniqueId());
+      buf.writeDouble(entity.getLocation().getX());
+      buf.writeDouble(entity.getLocation().getY());
+      buf.writeDouble(entity.getLocation().getZ());
+      buf.writeByte((int) ((CraftEntity) entity).getHandle().getYRot());
+      buf.writeByte((int) ((CraftEntity) entity).getHandle().getXRot());
+      var buf2 = new FriendlyByteBuf(Unpooled.buffer());
+      buf2.writeEnum(ClientboundPlayerInfoPacket.Action.ADD_PLAYER);
+      buf2.writeCollection(list, BufferUtil::writeOnAdd);
+
+      var buf3 = new FriendlyByteBuf(Unpooled.buffer());
+      buf3.writeEnum(ClientboundPlayerInfoPacket.Action.REMOVE_PLAYER);
+      buf3.writeCollection(list, BufferUtil::writeOnRemove);
+      for (var online : Bukkit.getOnlinePlayers())
+        spawnNPC(buf, buf2, buf3, plugin, entity.getUniqueId(), entity.getEntityId(), profile, online);
+      getNPC(entity.getUniqueId(), entity.getEntityId(), plugin).addGoals();
+      System.out.println(4);
     }
+
   }
 
   public static void respawnNPC(Entity npcEntity, Plugin plugin) {
@@ -203,6 +207,8 @@ public class NPCUtil {
       connection.send(new ClientboundSetEquipmentPacket(entityId, equipmentList));
       connection.send(new ClientboundSetEntityDataPacket(entityId, dataWatcher, true));
     }
+
+    npcEntities.add(uuid);
 
     NPCUtil.addToTeam("invisibleTag", profile);
     Bukkit.getScheduler().scheduleAsyncDelayedTask(plugin, () -> {
