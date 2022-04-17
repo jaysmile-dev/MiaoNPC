@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "io.papermc.paperweight"
-version = "1.2.3"
+version = "1.1.3"
 description = "NPC Plugin"
 
 java {
