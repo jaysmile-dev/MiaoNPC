@@ -19,7 +19,7 @@ public final class MiaoMain extends JavaPlugin {
     registerEvents();
     registerCommands();
 
-    //removed lines 24 - 26 for a safe reload
+    //reload more safe -> no npc spawning while reload -> restart instead
     Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
       Bukkit.getOnlinePlayers().forEach(player -> {
         new PacketReader(player).inject(this);
@@ -32,7 +32,6 @@ public final class MiaoMain extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    //removed lines 34 - 35 for a safe reload
     if (PacketReader.class != null)
       Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
   }
