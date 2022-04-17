@@ -24,7 +24,7 @@ public final class MiaoMain extends JavaPlugin {
       Bukkit.getOnlinePlayers().forEach(player -> {
         new PacketReader(player).inject(this);
       });
-    }, 2 * 20);
+    }, 10);
 
 
 
