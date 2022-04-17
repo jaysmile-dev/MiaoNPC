@@ -30,8 +30,9 @@ public final class MiaoMain extends JavaPlugin {
 
   @Override
   public void onDisable() {
-    if (PacketReader.class != null)
-      Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
+    //removed lines 34 - 35 for a safe reload
+    //if (PacketReader.class != null)
+    //  Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
   }
 
   private void registerEvents() {
