@@ -18,10 +18,11 @@ public final class MiaoMain extends JavaPlugin {
     saveConfig();
     registerEvents();
     registerCommands();
-    Bukkit.getOnlinePlayers().forEach(player -> {
-      if (player != null)
-        new PacketReader(player).inject(this);
 
+    //remove lines 24 - 26 for a safe reload
+
+    Bukkit.getOnlinePlayers().forEach(player -> {
+        new PacketReader(player).inject(this);
     });
 
 
