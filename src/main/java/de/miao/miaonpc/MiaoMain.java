@@ -20,10 +20,12 @@ public final class MiaoMain extends JavaPlugin {
     registerCommands();
 
     //removed lines 24 - 26 for a safe reload
+    Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+      Bukkit.getOnlinePlayers().forEach(player -> {
+        new PacketReader(player).inject(this);
+      });
+    }, 2 * 20);
 
-    //Bukkit.getOnlinePlayers().forEach(player -> {
-    //    new PacketReader(player).inject(this);
-    //});
 
 
   }
@@ -31,8 +33,8 @@ public final class MiaoMain extends JavaPlugin {
   @Override
   public void onDisable() {
     //removed lines 34 - 35 for a safe reload
-    //if (PacketReader.class != null)
-    //  Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
+    if (PacketReader.class != null)
+      Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
   }
 
   private void registerEvents() {
