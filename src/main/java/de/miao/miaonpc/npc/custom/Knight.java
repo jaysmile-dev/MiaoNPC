@@ -32,8 +32,6 @@ import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftVillager;
 import org.bukkit.entity.*;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
@@ -99,16 +97,23 @@ public class Knight extends NPC {
 
   @Override
   public void onDamage(Entity damager) {
+    var villager = (Villager) Bukkit.getEntity(uuid);
+    if (villager == null)
+      return;
     if (damager instanceof LivingEntity) {
-      var villager = (Villager) Bukkit.getEntity(uuid);
-      if (villager == null) {
-        return;
-      }
+
+
       if (damager instanceof Player player)
         if (player.getGameMode() == GameMode.CREATIVE && player.getGameMode() == GameMode.SPECTATOR) return;
       villager.setTarget((LivingEntity) damager);
       Bukkit.getMobGoals().removeAllGoals(villager);
       addGoals();
+    }
+
+    if (damager instanceof Projectile) {
+      if (((Projectile) damager).getShooter() instanceof LivingEntity entity)
+        villager.setTarget(entity);
+
     }
 
   }
