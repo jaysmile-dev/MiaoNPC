@@ -21,41 +21,6 @@ public class Sauron extends NPC {
   }
 
   @Override
-  public void addGoals() {
-
-  }
-
-  @Override
-  public void onLoad() {
-
-  }
-
-  @Override
-  public void onJoin() {
-
-  }
-
-  @Override
-  public void onLeave() {
-
-  }
-
-  @Override
-  public void onAttack(Entity attackedEntity) {
-
-  }
-
-  @Override
-  public void onInteract(PlayerInteractAtEntityEvent event) {
-
-  }
-
-  @Override
-  public void onDamage(Entity entity) {
-
-  }
-
-  @Override
   public void spawn(Location location) {
     this.setPos(location.getX(), location.getY(), location.getZ());
     this.setHealth(10000);

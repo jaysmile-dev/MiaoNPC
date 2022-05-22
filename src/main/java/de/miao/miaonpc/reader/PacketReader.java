@@ -65,7 +65,7 @@ public class PacketReader {
           return;
         }
         var packet = (ClientboundAddMobPacket) msg;
-        Bukkit.getScheduler().runTask(plugin, task -> {
+        plugin.getServer().getScheduler().runTask(plugin, task -> {
           var entity = Bukkit.getEntity(packet.getUUID());
 
           if (!NPCUtil.isNPC(entity)) {

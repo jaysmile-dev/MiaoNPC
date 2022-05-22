@@ -44,9 +44,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-public class NPCUtil {
+public final class NPCUtil {
 
   private static HashSet<UUID> npcEntities = new HashSet<>();
+
+  private NPCUtil() {
+    throw new UnsupportedOperationException();
+  }
 
   public static void writeNPCType(Entity entity, NPCType type) {
     entity.getPersistentDataContainer()

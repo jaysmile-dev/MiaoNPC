@@ -66,24 +66,9 @@ public class Knight extends NPC {
   }
 
   @Override
-  public void onJoin() {
-
-  }
-
-  @Override
-  public void onLeave() {
-
-  }
-
-  @Override
   public void onAttack(Entity entity) {
 
     ParticleUtil.createRotatingCircle(entity.getLocation(), Particle.REDSTONE, null, plugin);
-
-  }
-
-  @Override
-  public void onInteract(PlayerInteractAtEntityEvent event) {
 
   }
 

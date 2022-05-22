@@ -6,7 +6,12 @@ import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
 
 import javax.annotation.Nullable;
 
-public class BufferUtil {
+public final class BufferUtil {
+
+
+  private BufferUtil() {
+    throw new UnsupportedOperationException();
+  }
 
   public static void writeOnRemove(FriendlyByteBuf buf, ClientboundPlayerInfoPacket.PlayerUpdate entry) {
     buf.writeUUID(entry.getProfile().getId());

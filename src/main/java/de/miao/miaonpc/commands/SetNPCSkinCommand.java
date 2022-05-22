@@ -5,14 +5,15 @@ import de.miao.miaonpc.npc.NPCType;
 import de.miao.miaonpc.util.NPCUtil;
 import de.miao.miaonpc.util.SkinUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandException;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-public class SetNPCSkinCommand implements CommandExecutor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class SetNPCSkinCommand implements CommandExecutor, TabExecutor {
 
   private final Plugin plugin;
 
@@ -47,5 +48,23 @@ public class SetNPCSkinCommand implements CommandExecutor {
       sender.sendMessage(MiaoMain.getPrefix() + "§cFormat: /setnpcskin <npc type> <player name for skin>!");
 
     return false;
+  }
+
+  List<String> arguments = new ArrayList<>();
+
+  @Override
+  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    if (!sender.hasPermission("npc.setskin")) return null;
+    if (arguments.isEmpty())
+      for (var type : NPCType.values())
+        arguments.add(type.toString());
+    if (args.length == 1) {
+      var result = new ArrayList<String>();
+      for (String argument : arguments) {
+        if (argument.toLowerCase().startsWith(args[0].toLowerCase())) result.add(argument);
+      }
+      return result;
+    }
+    return null;
   }
 }

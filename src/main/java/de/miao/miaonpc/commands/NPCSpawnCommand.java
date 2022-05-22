@@ -6,18 +6,20 @@ import de.miao.miaonpc.util.NPCUtil;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.npc.Villager;
 import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.craftbukkit.v1_18_R2.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
-public class NPCSpawnCommand implements CommandExecutor {
+public class NPCSpawnCommand implements CommandExecutor, TabExecutor {
 
   private final Plugin plugin;
   public NPCSpawnCommand(Plugin plugin) {
@@ -60,6 +62,24 @@ public class NPCSpawnCommand implements CommandExecutor {
     return false;
   }
 
+  List<String> arguments = new ArrayList<>();
+
+  @Override
+  public @Nullable List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    if (!sender.hasPermission("npc.spawn")) return null;
+
+    if (arguments.isEmpty())
+      for (var type : NPCType.values())
+        arguments.add(type.toString());
+    if (args.length == 1) {
+      var result = new ArrayList<String>();
+      for (String argument : arguments) {
+        if (argument.toLowerCase().startsWith(args[0].toLowerCase())) result.add(argument);
+      }
+      return result;
+    }
+    return null;
+  }
 
   private void spawnNPC(NPCType type, Player player) {
     var npc = NPCUtil.getNewNPC(type, ((CraftPlayer) player).getHandle().getLevel(), plugin);

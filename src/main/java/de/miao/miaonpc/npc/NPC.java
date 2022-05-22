@@ -41,29 +41,39 @@ public abstract class NPC extends Villager {
     return NPCUtil.getNPCSkin(type, config);
   }
 
-  public abstract void addGoals();
+  public void addGoals() {
+
+  }
 
   /**
    * Called when the NPC is loaded for the player
    */
 
-  public abstract void onLoad();
+  public void onLoad() {
+
+  }
 
   /**
    * Called while the PlayerJoinEvent
    */
-  public abstract void onJoin();
+  public void onJoin() {
+
+  }
 
   /**
    * Called while the PlayerQuitEvent
    */
-  public abstract void onLeave();
+  public void onLeave() {
+
+  }
   /**
    * Called when the NPC attacks an entity
    *
    * @param attackedEntity the entity being attacked by the npc
    */
-  public abstract void onAttack(Entity attackedEntity);
+  public void onAttack(Entity attackedEntity) {
+
+  }
 
   /**
    *
@@ -71,16 +81,22 @@ public abstract class NPC extends Villager {
    * @param event
    */
 
-  public abstract void onInteract(PlayerInteractAtEntityEvent event);
+  public void onInteract(PlayerInteractAtEntityEvent event) {
+
+  }
   /**
    * Called when the NPC is getting hurt
    */
-  public abstract void onDamage(Entity damager);
+  public void onDamage(Entity damager) {
+
+  }
 
   /**
    * Spawning the npc as an entity
    */
-  public abstract void spawn(Location location);
+  public void spawn(Location location) {
+
+  }
 
   public NPCType getNPCType() {
     return type;

@@ -10,10 +10,10 @@ import java.net.http.HttpResponse;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class SkinUtil {
+public final class SkinUtil {
 
   private SkinUtil() {
-
+    throw new UnsupportedOperationException();
   }
 
   public static CompletableFuture<Property> getSkin(UUID uuid) {

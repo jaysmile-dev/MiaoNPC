@@ -2,13 +2,13 @@ package de.miao.miaonpc;
 
 import de.miao.miaonpc.commands.NPCSpawnCommand;
 import de.miao.miaonpc.commands.SetNPCSkinCommand;
-import de.miao.miaonpc.commands.tabcompleter.NPCSpawnTabCompleter;
-import de.miao.miaonpc.commands.tabcompleter.SetNPCSkinTabCompleter;
 import de.miao.miaonpc.listeners.JoinLeaveEvent;
 import de.miao.miaonpc.listeners.MobEventListener;
 import de.miao.miaonpc.reader.PacketReader;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.Set;
 
 public final class MiaoMain extends JavaPlugin {
   private static String prefix = "§9Miao §7-> ";
@@ -20,12 +20,11 @@ public final class MiaoMain extends JavaPlugin {
     registerCommands();
 
     //reload more safe -> no npc spawning while reload -> restart instead
-    Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
-      Bukkit.getOnlinePlayers().forEach(player -> {
+    getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+      getServer().getOnlinePlayers().forEach(player -> {
         new PacketReader(player).inject(this);
       });
     }, 10);
-
 
 
   }
@@ -33,7 +32,7 @@ public final class MiaoMain extends JavaPlugin {
   @Override
   public void onDisable() {
     if (PacketReader.class != null)
-      Bukkit.getOnlinePlayers().forEach(PacketReader::uninject);
+      getServer().getOnlinePlayers().forEach(PacketReader::uninject);
   }
 
   private void registerEvents() {
@@ -44,10 +43,12 @@ public final class MiaoMain extends JavaPlugin {
   }
 
   private void registerCommands() {
-    getCommand("npc").setExecutor(new NPCSpawnCommand(this));
-    getCommand("npc").setTabCompleter(new NPCSpawnTabCompleter());
-    getCommand("setnpcskin").setExecutor(new SetNPCSkinCommand(this));
-    getCommand("setnpcskin").setTabCompleter(new SetNPCSkinTabCompleter());
+    var spawnCmd = new NPCSpawnCommand(this);
+    var skinCmd = new SetNPCSkinCommand(this);
+    getCommand("npc").setExecutor(spawnCmd);
+    getCommand("npc").setTabCompleter(spawnCmd);
+    getCommand("setnpcskin").setExecutor(skinCmd);
+    getCommand("setnpcskin").setTabCompleter(skinCmd);
   }
 
   public static String getPrefix() {

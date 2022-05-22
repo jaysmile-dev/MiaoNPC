@@ -3,8 +3,9 @@ package de.miao.miaonpc.util;
 import org.bukkit.Particle;
 import org.bukkit.entity.*;
 
-public class MobUtil {
+public final class MobUtil {
   private MobUtil() {
+    throw new UnsupportedOperationException();
   }
 
   public static void preventArrowHitInRadius(double radius, Mob mob) {

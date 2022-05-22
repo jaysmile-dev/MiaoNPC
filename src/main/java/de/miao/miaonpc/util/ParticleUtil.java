@@ -1,6 +1,5 @@
 package de.miao.miaonpc.util;
 
-import de.miao.miaonpc.MiaoMain;
 import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -11,11 +10,12 @@ import org.bukkit.util.Vector;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ParticleUtil {
+public final class ParticleUtil {
 
   private static final Particle.DustOptions defaultOptions = new Particle.DustOptions(Color.fromRGB(250, 10, 30), 1);
 
   private ParticleUtil() {
+    throw new UnsupportedOperationException();
   }
 
   public static void createSphere(Location location, Particle particle, @Nullable Particle.DustOptions options, double radius) {
@@ -26,8 +26,7 @@ public class ParticleUtil {
         double x = Math.cos(a) * r;
         double z = Math.sin(a) * r;
         location.add(x, y, z);
-        location.getWorld().spawnParticle(particle, location, 2, Objects.requireNonNullElse(options,
-          defaultOptions));
+        location.getWorld().spawnParticle(particle, location, 2, Objects.requireNonNullElse(options, defaultOptions));
         location.subtract(x, y, z);
       }
     }
